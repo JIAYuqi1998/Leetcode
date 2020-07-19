@@ -14,4 +14,34 @@ create a ListNode which might require many resource allocations or inaccessible 
 
 So ideally, we should pick up either the head of l1 or l2 as the head other than creating a new one, which however makes the initialization step tedious.
 
- 
+# No.5 Longest Palindromic Substring
+Firstly, we use brutal force to solve the problem. We check every possible substring, if it is longer than the known longest sbustring, we replace the answer with it and update the maximum length. However, the time complexity is n cubic, which is not efficient.
+
+The second approach is extending Palindromic. We discuss the situation where the situation's length is odd or even. And push the boundary of Palindromic one by one by adding one to the right pointer and minus one to the left pointer. Check after pushing and return the maximum length of each index.
+
+Finnaly, it is dynamic programming. The objective function is f[i,j], which represents whether the substring of i to j is Palindromic or not. The object is to find the maximum j - i + 1(width) when f[i, j] is true.
+
+Then, we need to find the transition function step by step.
+for s = e, "a" is palindromic,
+
+for s + 1 = e, "aa" is palindromic (if `str[s] = str[e]`)
+
+for s + 2 = e, "aba" is palindromic (if `str[s] = str[e]` and "b" is palindromic)
+
+for s + 3 = e, "abba" is palindromic (if `str[s] = str[e]` and "bb" is palindromic)
+
+>state transition equation:
+
+state(s, e) is true:
+
+for s = e, 
+
+for s + 1 = e,  if str[s] == str[e]
+
+for s + 2 <= e, if str[s] == str[e] && state(s + 1, e - 1) is true
+
+>note: state(s + 1, e - 1) should be calculated before state(s, e). That is, s is decreasing during the bottop-up dp implementation, while the dist between s and e is increasing, that's why
+
+        for (int s = len - 1; s >= 0; s--) {
+            for (int dist = 1; dist < len - i; dist++) {
+>We keep track of longestPalindromeStart, longestPalindromeLength for the final output.
