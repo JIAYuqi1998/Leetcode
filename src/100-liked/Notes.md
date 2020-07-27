@@ -45,3 +45,38 @@ for s + 2 <= e, if str[s] == str[e] && state(s + 1, e - 1) is true
         for (int s = len - 1; s >= 0; s--) {
             for (int dist = 1; dist < len - i; dist++) {
 >We keep track of longestPalindromeStart, longestPalindromeLength for the final output.
+# No.11 Container With Most Water
+The first is brutal force.
+```java
+    public int maxArea(int[] height) {
+        int size = 0;
+        for (int i = 0; i < height.length; i++) {
+            for (int j = i + 1; j < height.length; j++) {
+                size = Math.max(size, (j - i) * Math.min(height[i],height[j]));
+            }
+        }
+        return size;
+    }
+```
+The other is two pointers. We scan the entire array from the leftmost and rightmost location. Find the minimum value of the two, and push the smaller index to center until the pointers meet. The main idea is that the size of container is determined by the minimum value.Here, if we move the larger item, there would be two possible situation:
+ >1.the next is even larger, but the width decreases and the height remain unchanged, which is undoubtedly smaller than the original
+ 
+>2.The next is smaller, this is the worse case. Width decreases and height decreass.
+
+Therefore, there is no need to check the pairs from the larger index, we only need to push the smaller index to center, and compare.
+```java
+    public int maxArea(int[] height) {
+        int leftPtr = 0;
+        int rightPtr = height.length - 1;
+        int maxArea = 0;
+        while(leftPtr != rightPtr) {
+            maxArea = Math.max(maxArea, (rightPtr - leftPtr) * Math.min(height[leftPtr],height[rightPtr]));
+            if (height[leftPtr] < height[rightPtr]) {
+                leftPtr++;
+            } else{
+                rightPtr--;
+            }
+        }
+        return maxArea;
+    }
+```

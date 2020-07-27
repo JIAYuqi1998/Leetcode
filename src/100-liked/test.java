@@ -2,8 +2,8 @@ import java.util.List;
 
 public class test {
     public static void main(String[] args) {
-        No5 test = new No5();
-        String ans = test.longestPalindrome("cbbd");
-        System.out.println(ans);
+        No647 test = new No647();
+        int result = test.countSubstrings("aaa");
+        System.out.println(result);
     }
 }
